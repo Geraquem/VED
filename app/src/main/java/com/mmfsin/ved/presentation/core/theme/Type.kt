@@ -1,4 +1,4 @@
-package com.mmfsin.ved.ui.theme
+package com.mmfsin.ved.presentation.core.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

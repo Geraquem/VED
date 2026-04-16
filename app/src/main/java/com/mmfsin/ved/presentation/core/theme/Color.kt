@@ -1,4 +1,4 @@
-package com.mmfsin.ved.ui.theme
+package com.mmfsin.ved.presentation.core.theme
 
 import androidx.compose.ui.graphics.Color
 
