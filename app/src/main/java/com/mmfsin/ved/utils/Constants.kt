@@ -1,0 +1,22 @@
+package com.mmfsin.ved.utils
+
+/** DILEMMAS & DUALISMS */
+const val DILEMMAS = "dilemmas"
+const val DUALISMS = "dualisms"
+const val DILEMMA_ID = "dilemmaId"
+const val DUALISM_ID = "dualismId"
+const val EXPLANATION = "explanation"
+const val TXT_TOP = "txtTop"
+const val TXT_BOTTOM = "txtBottom"
+const val CREATOR_ID = "creatorId"
+const val CREATOR_NAME = "creatorName"
+const val VOTES = "votes"
+const val VOTES_YES = "votesYes"
+const val VOTES_NO = "votesNo"
+const val VOTES_TOP = "votesTop"
+const val VOTES_BOTTOM = "votesBottom"
+const val COMMENTS = "comments"
+const val COMMENT_LIKES = "likes"
+const val COMMENT_REPLIES = "replies"
+const val FILTER_VALUE = "filterValue"
+const val REPORTED = "reported"

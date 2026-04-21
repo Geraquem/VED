@@ -1,10 +1,13 @@
 package com.mmfsin.ved.presentation.dilemmas
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mmfsin.ved.domain.usecases.GetDilemmaUseCase
+import com.mmfsin.ved.domain.models.Dilemma
+import com.mmfsin.ved.domain.usecases.GetDilemmasUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -14,22 +17,30 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DilemmasViewModel @Inject constructor(
-    val getDilemmaUseCase: GetDilemmaUseCase
+    val getDilemmasUseCase: GetDilemmasUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DilemmasStates())
     val uiState: StateFlow<DilemmasStates> = _uiState
 
-    fun getDilemma() {
+    private val _dilemmas = mutableStateListOf<Dilemma>()
+    val dilemmas: List<Dilemma> = _dilemmas
+
+    var currentIndex = 0
+
+    fun getDilemmas() {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.IO) {
-            val dilemma = getDilemmaUseCase()
+            delay(3000)
+            val response = getDilemmasUseCase()
             withContext(Dispatchers.Main) {
-                dilemma?.let { d ->
-                    _uiState.update { it.copy(dilemma = d, isLoading = false) }
+                _dilemmas.clear()
+                response?.let { r ->
+                    _dilemmas.addAll(response)
+                    _uiState.update { it.copy(dilemma = r.firstOrNull() ?: Dilemma(), isLoading = false) }
                 } ?: run {
                     /** ERRORRRR */
-                    _uiState.update { it.copy() }
+                    //                    _uiState.update { it.copy() }
                 }
             }
         }
@@ -41,6 +52,13 @@ class DilemmasViewModel @Inject constructor(
                 showVotesResult = true,
                 voteResult = votedYes
             )
+        }
+    }
+
+    fun nextDilemma() {
+        if (currentIndex < _dilemmas.size - 1) {
+            currentIndex++
+            _uiState.update { it.copy(dilemma = _dilemmas[currentIndex]) }
         }
     }
 }

@@ -4,8 +4,8 @@ import com.mmfsin.ved.domain.interfaces.IDilemmasRepository
 import com.mmfsin.ved.domain.models.Dilemma
 import javax.inject.Inject
 
-class GetDilemmaUseCase @Inject constructor(
+class GetDilemmasUseCase @Inject constructor(
     val repository: IDilemmasRepository
 ) {
-    operator fun invoke(): Dilemma? = repository.getDilemma()
+    suspend operator fun invoke(): List<Dilemma>? = repository.getDilemmas()
 }
