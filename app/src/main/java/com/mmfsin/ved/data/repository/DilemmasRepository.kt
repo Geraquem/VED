@@ -22,7 +22,9 @@ class DilemmasRepository @Inject constructor() : IDilemmasRepository {
                 val data = Dilemma(
                     topText = doc.getString(TXT_TOP) ?: "",
                     bottomText = doc.getString(TXT_BOTTOM) ?: "",
-                    creator = doc.getString(CREATOR_NAME) ?: ""
+                    creator = doc.getString(CREATOR_NAME) ?: "",
+                    votesYes = 456,
+                    votesNo = 851
                 )
                 result.add(data)
             }

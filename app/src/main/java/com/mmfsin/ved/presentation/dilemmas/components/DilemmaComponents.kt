@@ -1,7 +1,10 @@
 package com.mmfsin.ved.presentation.dilemmas.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -46,110 +49,123 @@ import java.util.Locale
 @Preview(showBackground = true)
 @Composable
 fun OpinionButtonsPV() {
-    OpinionButtons({}, {})
+    OpinionButtons(visible = true, {}, {})
 }
 
 @Composable
-fun OpinionButtons(yesButton: () -> Unit, noButton: () -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceAround
+fun OpinionButtons(visible: Boolean, yesButton: () -> Unit, noButton: () -> Unit) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(),
+        exit = fadeOut()
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(R.drawable.ic_dilemma_yes_trans),
-                contentDescription = null,
-                modifier = Modifier.size(85.dp).padding(bottom = 8.dp).clip(RoundedCornerShape(50)).clickable(onClick = { yesButton() })
-            )
-            Text(
-                text = stringResource(R.string.dilemmas_btn_yes).uppercase(),
-                style = MaterialTheme.typography.titleLarge,
-                fontFamily = FontFamily(Font(R.font.clown))
-            )
-        }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(R.drawable.ic_dilemma_no_trans),
-                contentDescription = null,
-                modifier = Modifier.size(85.dp).padding(bottom = 8.dp).clip(RoundedCornerShape(50)).clickable(onClick = { noButton() })
-            )
-            Text(
-                text = stringResource(R.string.dilemmas_btn_no).uppercase(),
-                style = MaterialTheme.typography.titleLarge,
-                fontFamily = FontFamily(Font(R.font.clown))
-            )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = painterResource(R.drawable.ic_dilemma_yes_trans),
+                    contentDescription = null,
+                    modifier = Modifier.size(85.dp).padding(bottom = 8.dp).clip(RoundedCornerShape(50))
+                        .clickable(onClick = { yesButton() }, enabled = visible)
+                )
+                Text(
+                    text = stringResource(R.string.dilemmas_btn_yes).uppercase(),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontFamily = FontFamily(Font(R.font.clown))
+                )
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = painterResource(R.drawable.ic_dilemma_no_trans),
+                    contentDescription = null,
+                    modifier = Modifier.size(85.dp).padding(bottom = 8.dp).clip(RoundedCornerShape(50))
+                        .clickable(onClick = { noButton() }, enabled = visible)
+                )
+                Text(
+                    text = stringResource(R.string.dilemmas_btn_no).uppercase(),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontFamily = FontFamily(Font(R.font.clown))
+                )
+            }
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun VotesResultPV() {
-    VotesResult(1040, 265, false)
+    VotesResult(true, 1040, 265, false)
 }
 
 @Composable
-fun VotesResult(votesYes: Long, votesNo: Long, voteResult: Boolean) {
-    val total = votesYes + votesNo
+fun VotesResult(visible: Boolean, votesYes: Long, votesNo: Long, userVoted: Boolean?) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
 
-    var animatedYes by remember { mutableLongStateOf(0L) }
-    var animatedNo by remember { mutableLongStateOf(0L) }
+        val total = votesYes + votesNo
 
-    LaunchedEffect(votesYes, votesNo) {
-        animatedYes = votesYes
-        animatedNo = votesNo
-    }
+        var animatedYes by remember { mutableLongStateOf(0L) }
+        var animatedNo by remember { mutableLongStateOf(0L) }
 
-    val yesPercent by animateFloatAsState(
-        targetValue = if (total == 0L) 0f else animatedYes.toFloat() / total,
-        animationSpec = tween(1000)
-    )
-    val noPercent by animateFloatAsState(
-        targetValue = if (total == 0L) 0f else animatedNo.toFloat() / total,
-        animationSpec = tween(1000)
-    )
-
-    Column {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-            Text(
-                text = getPercent(yesPercent), style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.SemiBold, color = GreenMedium
-            )
-            Text(
-                text = getPercent(noPercent), style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.SemiBold, color = RedMedium
-            )
+        LaunchedEffect(votesYes, votesNo) {
+            animatedYes = votesYes
+            animatedNo = votesNo
         }
 
-        Spacer(Modifier.height(6.dp))
-        Box {
-            AnimatedBar(
-                percent = yesPercent,
-                color = GreenLight,
-                flip = false
-            )
-            AnimatedBar(
-                percent = noPercent,
-                color = RedLight,
-                flip = true
-            )
-        }
-        Spacer(Modifier.height(6.dp))
-
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "$votesYes", style = MaterialTheme.typography.bodyLarge)
-                Spacer(Modifier.height(8.dp))
-                if (voteResult) {
-                    Image(painterResource(R.drawable.ic_dilemma_yes), null, modifier = Modifier.size(32.dp))
-                }
+        val yesPercent by animateFloatAsState(
+            targetValue = if (total == 0L) 0f else animatedYes.toFloat() / total,
+            animationSpec = tween(2500)
+        )
+        val noPercent by animateFloatAsState(
+            targetValue = if (total == 0L) 0f else animatedNo.toFloat() / total,
+            animationSpec = tween(2500)
+        )
+        Column {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+                Text(
+                    text = getPercent(yesPercent), style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.SemiBold, color = GreenMedium
+                )
+                Text(
+                    text = getPercent(noPercent), style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.SemiBold, color = RedMedium
+                )
             }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "$votesNo", style = MaterialTheme.typography.bodyLarge)
-                Spacer(Modifier.height(8.dp))
-                if (!voteResult)
-                    Image(painterResource(R.drawable.ic_dilemma_no), null, modifier = Modifier.size(32.dp))
+
+            Spacer(Modifier.height(6.dp))
+            Box {
+                AnimatedBar(
+                    percent = yesPercent,
+                    color = GreenLight,
+                    flip = false
+                )
+                AnimatedBar(
+                    percent = noPercent,
+                    color = RedLight,
+                    flip = true
+                )
+            }
+            Spacer(Modifier.height(6.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "$votesYes", style = MaterialTheme.typography.bodyLarge)
+                    Spacer(Modifier.height(8.dp))
+                    if (userVoted != null && userVoted) {
+                        Image(painterResource(R.drawable.ic_dilemma_yes), null, modifier = Modifier.size(32.dp))
+                    }
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "$votesNo", style = MaterialTheme.typography.bodyLarge)
+                    Spacer(Modifier.height(8.dp))
+                    if (userVoted != null && !userVoted)
+                        Image(painterResource(R.drawable.ic_dilemma_no), null, modifier = Modifier.size(32.dp))
+                }
             }
         }
     }

@@ -152,15 +152,19 @@ fun DilemmasScreen(viewModel: DilemmasViewModel = hiltViewModel(), navigationBac
 
             Spacer(Modifier.height(30.dp))
 
-            OpinionButtons(
-                yesButton = { viewModel.voteClickButton(votedYes = true) },
-                noButton = { viewModel.voteClickButton(votedYes = false) }
-            )
+            Box(Modifier.fillMaxWidth()) {
+                OpinionButtons(
+                    visible = !uiState.showVotesResult,
+                    yesButton = { viewModel.voteClickButton(votedYes = true) },
+                    noButton = { viewModel.voteClickButton(votedYes = false) }
+                )
 
-            if (uiState.showVotesResult) {
-                uiState.voteResult?.let { r ->
-                    VotesResult(uiState.dilemma.votesYes, uiState.dilemma.votesNo, voteResult = r)
-                }
+                VotesResult(
+                    visible = uiState.showVotesResult,
+                    votesYes = uiState.dilemma.votesYes,
+                    votesNo = uiState.dilemma.votesNo,
+                    userVoted = uiState.userVoted
+                )
             }
         }
         if (uiState.isLoading) LoadingFullScreen()

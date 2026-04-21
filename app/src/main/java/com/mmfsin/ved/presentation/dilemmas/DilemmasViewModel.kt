@@ -7,7 +7,6 @@ import com.mmfsin.ved.domain.models.Dilemma
 import com.mmfsin.ved.domain.usecases.GetDilemmasUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -31,7 +30,7 @@ class DilemmasViewModel @Inject constructor(
     fun getDilemmas() {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.IO) {
-            delay(3000)
+            //            delay(3000)
             val response = getDilemmasUseCase()
             withContext(Dispatchers.Main) {
                 _dilemmas.clear()
@@ -50,7 +49,7 @@ class DilemmasViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 showVotesResult = true,
-                voteResult = votedYes
+                userVoted = votedYes
             )
         }
     }
@@ -58,7 +57,12 @@ class DilemmasViewModel @Inject constructor(
     fun nextDilemma() {
         if (currentIndex < _dilemmas.size - 1) {
             currentIndex++
-            _uiState.update { it.copy(dilemma = _dilemmas[currentIndex]) }
+            _uiState.update {
+                it.copy(
+                    dilemma = _dilemmas[currentIndex],
+                    showVotesResult = false
+                )
+            }
         }
     }
 }

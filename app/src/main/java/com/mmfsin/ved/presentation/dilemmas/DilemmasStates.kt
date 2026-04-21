@@ -6,5 +6,5 @@ data class DilemmasStates(
     val dilemma: Dilemma = Dilemma(),
     val isLoading: Boolean = false,
     val showVotesResult: Boolean = false,
-    val voteResult: Boolean? = null,
+    val userVoted: Boolean? = null,
 )
