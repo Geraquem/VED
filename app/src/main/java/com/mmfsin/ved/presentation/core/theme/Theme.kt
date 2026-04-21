@@ -1,4 +1,4 @@
-package com.mmfsin.ved.presentation.core.theme
+package com.mmfsin.bestworldcompose.presentation.core.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -33,7 +33,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun VedTheme(
+fun BestWorldComposeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

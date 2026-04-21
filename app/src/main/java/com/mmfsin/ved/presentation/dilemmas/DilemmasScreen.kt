@@ -35,12 +35,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mmfsin.bestworldcompose.presentation.core.theme.GrayLight
+import com.mmfsin.bestworldcompose.presentation.core.theme.GreenLight
+import com.mmfsin.bestworldcompose.presentation.core.theme.RedLight
 import com.mmfsin.ved.R
 import com.mmfsin.ved.presentation.core.components.LoadingFullScreen
 import com.mmfsin.ved.presentation.core.components.StatusBarColor
-import com.mmfsin.ved.presentation.core.theme.GrayLight
-import com.mmfsin.ved.presentation.core.theme.GreenLight
-import com.mmfsin.ved.presentation.core.theme.RedLight
 import com.mmfsin.ved.presentation.dilemmas.components.OpinionButtons
 import com.mmfsin.ved.presentation.dilemmas.components.VotesResult
 

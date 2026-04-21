@@ -1,4 +1,4 @@
-package com.mmfsin.ved.presentation.core.theme
+package com.mmfsin.bestworldcompose.presentation.core.theme
 
 import androidx.compose.ui.graphics.Color
 
