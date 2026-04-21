@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ved</string>
+
+    <!-- DILEMMAS -->
+    <string name="dilemmas_but">Pero</string>
+    <string name="dilemmas_send_by">Enviado por</string>
+    <string name="dilemmas_btn_yes">A tope</string>
+    <string name="dilemmas_btn_no">No lo creo</string>
+    <string name="dilemmas_votes">Votos</string>
+    <string name="dilemmas_next">Siguiente</string>
+
 </resources>

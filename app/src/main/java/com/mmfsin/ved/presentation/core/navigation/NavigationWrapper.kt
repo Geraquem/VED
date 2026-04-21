@@ -21,7 +21,9 @@ fun NavigationWrapper() {
         }
 
         composable<Dilemmas> {
-            DilemmasScreen()
+            DilemmasScreen(
+                navigationBack = { navController.popBackStack() }
+            )
         }
     }
 }
